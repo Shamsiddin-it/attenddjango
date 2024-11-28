@@ -3,13 +3,200 @@
 {% block title %}Attendance List{% endblock %}
 
 {% block content %}
-<h1>Attendance List</h1>
-<a href="{% url 'attendance_create' %}">Add Attendance</a>
-<ul>
-    {% for attendance in object_list %}
-        <li>
-            <a href="{% url 'attendance_detail' attendance.pk %}">{{ attendance.student.name }} - {{ attendance.status }}</a>
+<style>
+    /* General layout and typography */
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f4f7fc;
+        color: #333;
+        margin: 0;
+        padding: 0;
+    }
+    
+    /* Container to center the content and give it padding */
+    .attendance-container {
+        width: 80%;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+    }
+    
+    h1 {
+        font-size: 2rem;
+        color: #2d3748;
+        margin-bottom: 20px;
+    }
+    
+    /* Filter form styling */
+    .filter-form {
+        margin-bottom: 20px;
+    }
+    
+    .form-group {
+        margin-bottom: 15px;
+    }
+    
+    label {
+        font-size: 1rem;
+        font-weight: bold;
+        color: #333;
+    }
+    
+    .form-input, .form-select {
+        width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 1rem;
+        box-sizing: border-box;
+    }
+    
+    .form-input:focus, .form-select:focus {
+        border-color: #4CAF50;
+        outline: none;
+    }
+    
+    .btn-submit {
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: white;
+        font-weight: bold;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    
+    .btn-submit:hover {
+        background-color: #45a049;
+    }
+    
+    /* Attendance List */
+    .attendance-list {
+        list-style-type: none;
+        padding: 0;
+    }
+    
+    .attendance-item {
+        background-color: #fafafa;
+        padding: 15px;
+        margin: 10px 0;
+        border-radius: 8px;
+        box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .attendance-link {
+        display: flex;
+        justify-content: space-between;
+        text-decoration: none;
+        color: #333;
+    }
+    
+    .attendance-link:hover {
+        background-color: #e5e7eb;
+        border-radius: 5px;
+        padding: 10px;
+    }
+    
+    .student-name {
+        font-weight: bold;
+        font-size: 1.1rem;
+    }
+    
+    .attendance-status {
+        font-size: 1rem;
+        color: #4CAF50;
+    }
+    
+    .attendance-status.pending {
+        color: #FF9800;
+    }
+    
+    .attendance-status.absent {
+        color: #f44336;
+    }
+    
+    .attendance-time {
+        font-size: 0.9rem;
+        color: #666;
+    }
+    
+    /* Responsive Design for small screens */
+    @media (max-width: 768px) {
+        .attendance-container {
+            width: 95%;
+        }
+    
+        h1 {
+            font-size: 1.5rem;
+        }
+    
+        .attendance-item {
+            padding: 10px;
+        }
+    
+        .attendance-link {
+            font-size: 1rem;
+        }
+    
+        .btn-submit {
+            font-size: 0.9rem;
+        }
+    }
+    </style>
+<div class="attendance-container">
+    <h1>Attendance List</h1>
+
+    <!-- Filter Form -->
+    <form method="get">
+        {% csrf_token %}
+        <div class="search-form">
+            <div>
+                <label for="id_student_name">Student Name:</label>
+                <input type="text" name="student_name" value="{{ form.student_name.value }}">
+            </div>
+
+            <div>
+                <label for="id_status">Status:</label>
+                <select name="status" id="id_status">
+                    <option value="">All</option>
+                    <option value="came" {% if form.status.value == 'came' %}selected{% endif %}>Came</option>
+                    <option value="late" {% if form.status.value == 'late' %}selected{% endif %}>Late</option>
+                    <option value="absent" {% if form.status.value == 'absent' %}selected{% endif %}>Absent</option>
+                    <option value="left" {% if form.status.value == 'left' %}selected{% endif %}>Left</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="id_date_from">From Date:</label>
+                <input type="date" name="date_from" value="{{ form.date_from.value }}">
+            </div>
+
+            <div>
+                <label for="id_date_to">To Date:</label>
+                <input type="date" name="date_to" value="{{ form.date_to.value }}">
+            </div>
+
+            <button type="submit" class="btn-submit">Search</button>
+        </div>
+    </form>
+
+    <!-- Display Attendance List -->
+    <ul class="attendance-list">
+        {% for attendance in attendance_records %}
+        <li class="attendance-item">
+            <a href="{% url 'attendance_detail' attendance.pk %}" class="attendance-link">
+                <span class="student-name">{{ attendance.student.name }}</span> - 
+                <span class="attendance-status">{{ attendance.status }}</span> - 
+                <span class="attendance-time">{{ attendance.time }}</span>
+            </a>
         </li>
-    {% endfor %}
-</ul>
+        {% empty %}
+        <li>No records found for the selected filters.</li>
+        {% endfor %}
+    </ul>
+</div>
 {% endblock %}

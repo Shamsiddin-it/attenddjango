@@ -3,12 +3,113 @@
 {% block title %}Confirm Delete{% endblock %}
 
 {% block content %}
-<h1>Are you sure you want to delete the attendance record for {{ object.student.name }}?</h1>
-<p>This action cannot be undone.</p>
+<style>
+    /* General page styling */
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f4f7fc;
+        color: #333;
+        margin: 0;
+        padding: 0;
+    }
+    
+    /* Container for the confirmation message */
+    .delete-container {
+        width: 80%;
+        max-width: 600px;
+        margin: 50px auto;
+        padding: 30px;
+        background-color: #fff;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        text-align: center;
+    }
+    
+    h1 {
+        font-size: 1.8rem;
+        color: #333;
+        margin-bottom: 20px;
+    }
+    
+    .warning-text {
+        font-size: 1.1rem;
+        color: #f44336;
+        margin-bottom: 20px;
+    }
+    
+    /* Button styling */
+    .confirmation-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+    }
+    
+    .btn-delete, .btn-cancel {
+        padding: 12px 20px;
+        font-size: 1rem;
+        font-weight: bold;
+        text-decoration: none;
+        border-radius: 5px;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-delete {
+        background-color: #f44336;
+        color: white;
+        border: none;
+    }
+    
+    .btn-delete:hover {
+        background-color: #d32f2f;
+    }
+    
+    .btn-cancel {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+    }
+    
+    .btn-cancel:hover {
+        background-color: #388e3c;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .delete-container {
+            width: 95%;
+        }
+    
+        h1 {
+            font-size: 1.5rem;
+        }
+    
+        .warning-text {
+            font-size: 1rem;
+        }
+    
+        .confirmation-buttons {
+            flex-direction: column;
+        }
+    
+        .btn-delete, .btn-cancel {
+            width: 100%;
+            padding: 10px 0;
+        }
+    }
+    </style>
+    
+<div class="delete-container">
+    <h1>Are you sure you want to delete the attendance record for {{ object.student.name }}?</h1>
+    <p class="warning-text">This action cannot be undone.</p>
 
-<form method="post">
-    {% csrf_token %}
-    <button type="submit">Yes, delete</button>
-    <a href="{% url 'attendance_list' %}">Cancel</a>
-</form>
+    <form method="post">
+        {% csrf_token %}
+        <div class="confirmation-buttons">
+            <button type="submit" class="btn-delete">Yes, delete</button>
+            <a href="{% url 'attendance_list' %}" class="btn-cancel">Cancel</a>
+        </div>
+    </form>
+</div>
 {% endblock %}
+

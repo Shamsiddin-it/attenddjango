@@ -3,26 +3,125 @@
 {% block title %}Mark Attendance{% endblock %}
 
 {% block content %}
-<h1>{% if object %}Edit{% else %}Mark{% endif %} Attendance</h1>
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f7fc;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
 
-<!-- Display form errors -->
-{% if form.errors %}
-  <div class="alert alert-danger">
-    <ul>
-      {% for field in form %}
-        {% for error in field.errors %}
-          <li>{{ error }}</li>
-        {% endfor %}
-      {% endfor %}
-    </ul>
-  </div>
-{% endif %}
+.attendance-form-container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    margin-top: 20px;
+}
 
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}  <!-- Render form fields as paragraphs -->
-    <button type="submit">{% if object %}Update{% else %}Save{% endif %}</button>
-</form>
+h1 {
+    font-size: 2rem;
+    color: #2d3748;
+    margin-bottom: 20px;
+}
 
-<a href="{% url 'attendance_list' %}">Back to Attendance List</a>
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+.alert-danger ul {
+    padding-left: 20px;
+}
+
+.alert-danger li {
+    list-style-type: square;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+button[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+a.btn-back {
+    display: inline-block;
+    margin-top: 20px;
+    background-color: #2196F3;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+a.btn-back:hover {
+    background-color: #1976D2;
+}
+
+@media (max-width: 768px) {
+    .attendance-form-container {
+        width: 95%;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    button[type="submit"], a.btn-back {
+        font-size: 0.9rem;
+        padding: 8px 16px;
+    }
+}
+
+</style>
+<div class="attendance-form-container">
+    <h1>{% if object %}Edit{% else %}Mark{% endif %} Attendance</h1>
+
+    <!-- Display form errors -->
+    {% if form.errors %}
+    <div class="alert alert-danger">
+        <ul>
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ form.as_p }}  <!-- Render form fields as paragraphs -->
+        </div>
+        <button type="submit" class="btn-submit">{% if object %}Update{% else %}Save{% endif %}</button>
+    </form>
+
+    <a href="{% url 'attendance_list' %}" class="btn-back">Back to Attendance List</a>
+</div>
 {% endblock %}

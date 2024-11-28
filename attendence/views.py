@@ -11,6 +11,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
+from .forms import *
 
 # Teacher Views
 class TeacherListView(ListView):
@@ -94,8 +95,42 @@ class StudentDeleteView(DeleteView):
 class AttendanceListView(ListView):
     model = Attendence
     template_name = 'attendance_list.html'
-    
-    
+    context_object_name = 'attendance_records'
+    paginate_by = 10  # Optional: Paginate results
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        # Add the filter form to the context
+        context['form'] = AttendanceSearchForm(self.request.GET)
+        
+        # Add the filter form to the context
+        return context
+
+    def get_queryset(self):
+        queryset = Attendence.objects.all()  # Start with all records
+
+        # Create form instance with GET parameters (filters)
+        form = AttendanceSearchForm(self.request.GET)
+
+        if form.is_valid():
+            student_name = form.cleaned_data.get('student_name')
+            status = form.cleaned_data.get('status')
+            date_from = form.cleaned_data.get('date_from')
+            date_to = form.cleaned_data.get('date_to')
+
+            # Apply filters to the queryset
+            if student_name:
+                queryset = queryset.filter(student__name__icontains=student_name)
+            if status:
+                queryset = queryset.filter(status=status)
+            if date_from:
+                queryset = queryset.filter(time__gte=date_from)
+            if date_to:
+                queryset = queryset.filter(time__lte=date_to)
+
+        return queryset
+
 
 class AttendanceCreateView(CreateView):
     model = Attendence
@@ -131,13 +166,9 @@ class ProfileView(LoginRequiredMixin, TemplateView):
     template_name = "profile.html"
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Get the logged-in user (student)
+        # Add the logged-in user's username to the context
         context['username'] = self.request.user.username
-        user = self.request.user
-        # Fetch the attendance records for this user
-        attendance_records = Attendence.objects.filter()
-        # Pass the attendance records to the context
-        context['attendance_records'] = attendance_records
+        
         return context
 
 
