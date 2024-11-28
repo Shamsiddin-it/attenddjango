@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}User Profile{% endblock %}
+
+{% block content %}
+  <h1>{{ user.username }}'s Profile</h1>
+  <p>{{user.email}}</p>
+  {% if user.profile_picture %}
+    <h2>Profile Picture</h2>
+    <img src="{{ user.profile_picture.url }}" alt="Profile Picture" width="200">
+  {% endif %}
+  {% for object in attendance_records %}
+    <h1>Attendance for {{ object.name }}</h1>
+    <p>Status: {{ object.get_status_display }}</p>  <!-- Shows the human-readable status -->
+    <p>Reason: {{ object.reason }}</p>
+    <p>Time: {{ object.time }}</p>    
+  {% endfor %}
+{% endblock %}

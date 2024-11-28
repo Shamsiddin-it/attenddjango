@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Attendance List{% endblock %}
+
+{% block content %}
+<h1>Attendance List</h1>
+<a href="{% url 'attendance_create' %}">Add Attendance</a>
+<ul>
+    {% for attendance in object_list %}
+        <li>
+            <a href="{% url 'attendance_detail' attendance.pk %}">{{ attendance.student.name }} - {{ attendance.status }}</a>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}

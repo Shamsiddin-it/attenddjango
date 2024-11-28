@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}Attendance Details{% endblock %}
+
+{% block content %}
+<h1>Attendance for {{ object.student.name }}</h1>
+<p>Status: {{ object.get_status_display }}</p>  <!-- Shows the human-readable status -->
+<p>Reason: {{ object.reason }}</p>
+<p>Time: {{ object.time }}</p>
+
+<a href="{% url 'attendance_update' object.pk %}">Edit</a>
+<a href="{% url 'attendance_delete' object.pk %}">Delete</a>
+<a href="{% url 'attendance_list' %}">Back to Attendance List</a>
+{% endblock %}

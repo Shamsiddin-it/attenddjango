@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% block title %}Register{% endblock %}
+{% block content %}
+<style>
+    /* Scoped styles for Register page */
+
+    /* Page title styles */
+    .register-title {
+        font-size: 2.5em;
+        color: #007bff; /* Primary color */
+        text-align: center;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    /* Form container styles */
+    .register-form {
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #ffffff;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Form styles */
+    .register-form form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .register-form label {
+        display: block;
+        font-size: 1.1em;
+        margin-bottom: 10px;
+        color: #343a40;
+    }
+
+    .register-form input {
+        width: 100%;
+        padding: 10px;
+        font-size: 1em;
+        margin-bottom: 20px;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        transition: border-color 0.3s;
+    }
+
+    .register-form input:focus {
+        border-color: #007bff;
+        outline: none;
+    }
+
+    .register-form button {
+        padding: 12px;
+        background-color: #007bff;
+        color: #ffffff;
+        border: none;
+        border-radius: 6px;
+        font-size: 1.1em;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.2s;
+    }
+
+    .register-form button:hover {
+        background-color: #0056b3;
+        transform: translateY(-2px);
+    }
+
+    .register-form button:active {
+        transform: translateY(0);
+    }
+</style>
+
+<h1 class="register-title">Sign Up</h1>
+<div class="register-form">
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Sign Up</button>
+    </form>
+</div>
+{% endblock %}

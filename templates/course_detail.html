@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ object.name }} Details{% endblock %}
+
+{% block content %}
+<h1>{{ object.name }}</h1>
+{% for teacher in object.teacher.all %}
+<p>Mentor{{teacher.id}}: {{teacher.name}}</p>
+{% endfor %}
+<p>Time: {{ object.time }}</p>
+<p>Price: {{ object.price }}</p>
+<p>Description: {{ object.description }}</p>
+<p>Max Students: {{ object.max_students }}</p>
+<p>Min Students: {{ object.min_students }}</p>
+<p>Start Date: {{ object.start }}</p>
+<p>End Date: {{ object.end }}</p>
+<a href="{% url 'course_update' object.pk %}">Edit</a>
+<a href="{% url 'course_delete' object.pk %}">Delete</a>
+{% endblock %}

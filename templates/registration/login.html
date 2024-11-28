@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    /* Scoped styles for Login page */
+
+    /* Page title styles */
+    .login-title {
+        font-size: 2em;
+        color: #007bff; /* Primary color */
+        text-align: center;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    /* Form container styles */
+    .login-form {
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #ffffff;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Form styles */
+    .login-form form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .login-form label {
+        display: block;
+        font-size: 1.1em;
+        margin-bottom: 10px;
+        color: #343a40;
+    }
+
+    .login-form input {
+        width: 100%;
+        padding: 10px;
+        font-size: 1em;
+        margin-bottom: 20px;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        transition: border-color 0.3s;
+    }
+
+    .login-form input:focus {
+        border-color: #007bff;
+        outline: none;
+    }
+
+    .login-form button {
+        padding: 12px;
+        background-color: #007bff;
+        color: #ffffff;
+        border: none;
+        border-radius: 6px;
+        font-size: 1.1em;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.2s;
+    }
+
+    .login-form button:hover {
+        background-color: #0056b3;
+        transform: translateY(-2px);
+    }
+
+    .login-form button:active {
+        transform: translateY(0);
+    }
+
+    .signup-link {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 1em;
+        color: #555555;
+    }
+
+    .signup-link a {
+        color: #007bff;
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+
+    .signup-link a:hover {
+        color: #0056b3;
+    }
+
+</style>
+
+<h2 class="login-title">Log In</h2>
+<div class="login-form">
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Log In</button>
+    </form>
+    <p class="signup-link">Don't have an account? <a href="{% url 'signup' %}">Sign up</a></p>
+</div>
+{% endblock content %}

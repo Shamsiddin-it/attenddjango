@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Create or Update Student{% endblock %}
+
+{% block content %}
+<h1>{% if object %}Edit{% else %}Create{% endif %} Student</h1>
+
+<!-- Display form errors -->
+{% if form.errors %}
+  <div class="alert alert-danger">
+    <ul>
+      {% for field in form %}
+        {% for error in field.errors %}
+          <li>{{ error }}</li>
+        {% endfor %}
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}
+
+<!-- Form to create or edit student -->
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }} <!-- Render form fields as paragraphs -->
+    <button type="submit">{% if object %}Update{% else %}Create{% endif %}</button>
+</form>
+
+<!-- Link back to the student list -->
+<a href="{% url 'student_list' %}">Back to student list</a>
+{% endblock %}

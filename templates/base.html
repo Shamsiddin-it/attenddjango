@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Django App{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% block extra_head %}
+    {% endblock %}
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                {% if user.is_superuser %}
+                <li><a href="{% url 'teacher_list' %}">Teachers</a></li>
+                <li><a href="{% url 'course_list' %}">Courses</a></li>
+                <li><a href="{% url 'student_list' %}">Students</a></li>
+                {% endif %}
+                <li><a href="{% url 'attendance_list' %}">Attendance</a></li>
+                <li><a href="{% url 'profile' %}">Profile</a></li>
+                {% if user.is_authenticated %}
+                <li>Welcome, {{ user.username }}</li>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+                {% else %}
+                <li><a href="{% url 'login' %}">Login</a></li>
+                {% comment %} <li><a href="{% url 'signup' %}">Sign Up</a></li> {% endcomment %}
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Django App</p>
+    </footer>
+
+    <script src="{% static 'js/script.js' %}"></script>
+    {% block extra_scripts %}
+    {% endblock %}
+</body>
+</html>
