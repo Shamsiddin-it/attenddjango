@@ -126,3 +126,8 @@ STATICFILES_DIRS = [
 ]
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'attendence.authentication.EmailAuthBackend',
+]
